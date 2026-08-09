@@ -1,6 +1,18 @@
 # Requirements and design review
 
-This document separates the original concept evidence from the decisions that still require engineering closure.
+This document separates the original concept evidence from the decisions that still require engineering closure. It is a portfolio-level engineering review, not a released vehicle specification.
+
+## Review status
+
+| Review area | Current assessment | Required closure |
+|---|---|---|
+| Stakeholder evidence | Documented for 101 respondents | Preserve traceability from each need to measurable requirements. |
+| Requirements | Candidate values captured | Add unique IDs, rationale, acceptance criteria, and ownership. |
+| Architecture consistency | Partially defined | Baseline one motor, braking, and wheel/tyre configuration. |
+| Interfaces | Concept connections shown | Define power, signal, protection, direction, and connector data. |
+| Verification readiness | Methods proposed | Complete calculations, test conditions, and pass/fail criteria. |
+
+Source handling and interpretation rules are documented in [Sources and provenance](SOURCES.md).
 
 ## Stakeholder baseline
 
