@@ -4,7 +4,9 @@
 
 **Project Presentation — “Development of an Electric Bike Taxi using MBSE Approach.”** Supplied by Pratheswaran Hariharan as a private working reference. It contains the stakeholder analysis, Kano model, QFD, candidate requirements, functional analysis, SysML diagrams, conclusion, and project timeline used to prepare this repository.
 
-The public walkthrough reconstructs the architecture in original-language Mermaid diagrams so it renders directly on GitHub without missing asset links. The complete presentation, original PowerPoint, embedded media, extracted slide images, manuscript, and full project report are intentionally **not published or redistributed** in this repository.
+The public walkthrough combines original-language Mermaid explanations with 15 selected project screenshots supplied by the project author for this portfolio. These PNG assets cover the Kano analysis, QFD, MBSE lifecycle, functional architecture, requirements, use case, context, sequence, BDD, IBD, state-machine, and parametric views.
+
+The complete presentation, original PowerPoint, embedded media, manuscript, and full project report are intentionally **not published or redistributed** in this repository. Only the selected screenshots under `assets/` are published.
 
 ## Methodology reference
 
@@ -22,5 +24,5 @@ A user-supplied reference copy was used to understand the methodology. The copyr
 - Numerical values are transcribed from project evidence and labeled as requirements, concept values, or unresolved alternatives.
 - Conflicting values are retained and explicitly flagged rather than silently reconciled.
 - No performance claim is treated as verified unless the source contains a completed analysis or test result.
-- Mermaid diagrams are explanatory portfolio views; the CATIA Magic/SysML artifacts remain the project-model evidence.
-- No public document links to an unpublished presentation, manuscript, report, media file, or extracted image.
+- Mermaid diagrams are explanatory portfolio views; the selected CATIA Magic/SysML screenshots remain project-model evidence.
+- Public documents link only to files committed in this repository; none links to an unpublished presentation, manuscript, report, or media file.

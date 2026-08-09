@@ -10,7 +10,7 @@ This undergraduate team project translates stakeholder needs into a traceable sy
 
 | Document | Purpose |
 |---|---|
-| [MBSE architecture walkthrough](docs/MBSE_MODEL_WALKTHROUGH.md) | Connects stakeholder evidence, requirements, behavior, structure, interfaces, and verification with GitHub-renderable Mermaid views. |
+| [MBSE architecture walkthrough](docs/MBSE_MODEL_WALKTHROUGH.md) | Connects stakeholder evidence, requirements, behavior, structure, interfaces, and verification with project screenshots plus GitHub-renderable Mermaid views. |
 | [Requirements and design review](docs/REQUIREMENTS_AND_DESIGN_REVIEW.md) | Separates source evidence from unresolved configuration decisions and verification work. |
 | [Sources and provenance](docs/SOURCES.md) | Records evidence provenance, methodology references, and the public-repository exclusion policy. |
 
@@ -40,6 +40,10 @@ flowchart TB
 ```
 
 Competing motor, brake, and wheel specifications remain open configuration decisions rather than released design values.
+
+![Functional architecture of the e-bike taxi concept](assets/analysis/functional-architecture.png)
+
+*Original project view: functional architecture connecting the chassis, controls, energy source, traction, braking, and auxiliary systems.*
 
 ## Problem and project scope
 
@@ -84,6 +88,8 @@ The project used the Kano model to distinguish basic expectations from performan
 
 The cost classification should be revisited because low cost is also recorded as a primary stakeholder requirement.
 
+![Kano model for e-bike taxi stakeholder needs](assets/analysis/kano-model.png)
+
 ### Quality Function Deployment
 
 The QFD matrix links customer concerns—running cost, maintenance, warranty, comfort, and aesthetics—to battery, motor, controller, sensors, subsystems, electrical systems, and overall design.
@@ -98,9 +104,15 @@ The QFD matrix links customer concerns—running cost, maintenance, warranty, co
 | Controllers | 54 |
 | Sensors | 54 |
 
+![Quality Function Deployment matrix](assets/analysis/quality-function-deployment.png)
+
+*The source QFD gives the motor and battery the highest weighted engineering priorities.*
+
 ## MagicGrid-inspired model organization
 
 The model separates the problem domain from the solution domain. The black-box view captures stakeholder needs, use cases, system context, and effectiveness measures. The white-box view decomposes functions and logical subsystems. System requirements connect the problem definition to a candidate architecture.
+
+![MBSE development lifecycle](assets/analysis/mbse-development-lifecycle.png)
 
 ```mermaid
 flowchart TD
@@ -118,6 +130,8 @@ flowchart TD
 ```
 
 The complete diagram-by-diagram explanation is available in the [MBSE architecture walkthrough](docs/MBSE_MODEL_WALKTHROUGH.md).
+
+![CATIA Magic package organization](assets/diagrams/package-model-organization.png)
 
 ## System concept
 
@@ -150,6 +164,16 @@ These values are retained exactly as concept-stage evidence. They are not presen
 | State Machine | How does the system change state? | Service workflow and vehicle power/control behavior. |
 | Parametric diagram | How are quantitative constraints connected? | Vehicle mass and five-minute booking/payment requirement. |
 
+### Structural architecture evidence
+
+![E-Bike Taxi Block Definition Diagram](assets/diagrams/block-definition-diagram.png)
+
+*Block Definition Diagram: vehicle frame, horn, wheels, braking, seat, converter, controller, motor, and battery.*
+
+![E-Bike Taxi Internal Block Diagram](assets/diagrams/internal-block-diagram.png)
+
+*Internal Block Diagram: frame, external power, electrical unit, lighting, braking, and horn interfaces.*
+
 ## Traceability example
 
 | Stakeholder need | Derived design response | Model evidence | Suggested verification |
@@ -179,6 +203,9 @@ See [Requirements and design review](docs/REQUIREMENTS_AND_DESIGN_REVIEW.md) for
 
 ```text
 E-Bike-Taxi-MBSE/
+├── assets/
+│   ├── analysis/                 # Kano, QFD, lifecycle, and functional architecture
+│   └── diagrams/                 # SysML requirements, behavior, structure, and parametrics
 ├── docs/
 │   ├── MBSE_MODEL_WALKTHROUGH.md
 │   ├── REQUIREMENTS_AND_DESIGN_REVIEW.md
@@ -187,7 +214,7 @@ E-Bike-Taxi-MBSE/
 └── README.md
 ```
 
-The source presentation, manuscript, full report, embedded media, and extracted images are working references and are intentionally not redistributed. See [Sources and provenance](docs/SOURCES.md) for the evidence and exclusion policy.
+The source presentation, manuscript, full report, and embedded media remain excluded. The project author supplied the selected analysis and SysML screenshots published under `assets/` for this portfolio. See [Sources and provenance](docs/SOURCES.md) for the evidence and exclusion policy.
 
 ## Project timeline
 

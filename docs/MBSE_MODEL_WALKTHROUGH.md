@@ -1,6 +1,6 @@
 # MBSE architecture walkthrough
 
-This document reconstructs the project architecture as GitHub-renderable Mermaid views. The diagrams are explanatory portfolio views derived from the private project evidence; they are not exported CATIA Magic screenshots or a replacement for the original SysML model.
+This document pairs selected project screenshots supplied by the project author with GitHub-renderable Mermaid explanations. The screenshots preserve the original analysis and CATIA Magic/SysML evidence; the Mermaid views clarify the engineering meaning and remain readable at repository scale. Neither format replaces the underlying SysML model.
 
 ## Architecture at a glance
 
@@ -33,6 +33,14 @@ flowchart TB
 
 Competing motor, brake, and wheel specifications remain open configuration decisions, as documented in the [requirements and design review](REQUIREMENTS_AND_DESIGN_REVIEW.md).
 
+![MBSE development lifecycle](../assets/analysis/mbse-development-lifecycle.png)
+
+*The project follows a V-model progression from stakeholder requirements and system architecture to integration, verification, and validation.*
+
+![Functional architecture of the e-bike taxi](../assets/analysis/functional-architecture.png)
+
+*The functional view connects the chassis, energy conversion, traction, braking, and auxiliary systems.*
+
 ## 1. Package diagram — model organization
 
 ```mermaid
@@ -56,6 +64,8 @@ flowchart TD
 **Purpose.** The package organization defines where model information belongs and separates problem analysis from candidate solution definition.
 
 **Engineering meaning.** This follows the main MagicGrid principle: understand the system from the outside before decomposing it internally. It supports navigation, ownership, and traceability across requirements, behavior, structure, and parameters.
+
+![CATIA Magic package organization](../assets/diagrams/package-model-organization.png)
 
 ## 2. Requirement diagrams — from needs to specifications
 
@@ -88,6 +98,10 @@ Key requirements visible in the source model include:
 
 The requirement evidence also exposes concept conflicts when compared with the functional-analysis values. Those conflicts are retained and assessed in the design-review file rather than silently reconciled.
 
+![Stakeholder requirement hierarchy](../assets/diagrams/requirements-hierarchy.png)
+
+![Stakeholder requirement table](../assets/diagrams/requirements-table.png)
+
 ## 3. Use-case diagram — system responsibilities and actors
 
 ```mermaid
@@ -110,6 +124,8 @@ flowchart LR
 
 The system-level work includes making the bike taxi, battery, charger, and frame; aligning the seating position; providing charging availability; booking a ride; assigning a driver; and completing payment. The view keeps external participants outside the system boundary while showing why their interfaces matter.
 
+![E-Bike Taxi use-case diagram](../assets/diagrams/use-case-diagram.png)
+
 ## 4. System-context diagram — external interfaces
 
 ```mermaid
@@ -124,6 +140,8 @@ flowchart TB
 ```
 
 This is the boundary-control view: it identifies what the system owns, what remains external, and which physical, financial, or informational exchanges cross the boundary.
+
+![E-Bike Taxi system-context diagram](../assets/diagrams/system-context-diagram.png)
 
 ## 5. Activity diagram — end-to-end behavior
 
@@ -173,6 +191,10 @@ sequenceDiagram
 
 Each message can become a software or service requirement with timing, data, exception handling, and acceptance criteria. A timeout or cancellation branch should be modeled explicitly in the next increment.
 
+![Ride and payment sequence diagram, part 1](../assets/diagrams/ride-payment-sequence-part-1.png)
+
+![Ride and payment sequence diagram, part 2](../assets/diagrams/ride-payment-sequence-part-2.png)
+
 ## 7. Block Definition Diagram — system decomposition
 
 ```mermaid
@@ -194,6 +216,8 @@ flowchart TD
 
 The BDD answers **what exists** and establishes reusable types. It does not by itself show how parts exchange energy or signals; that is the purpose of the internal-interface view.
 
+![E-Bike Taxi Block Definition Diagram](../assets/diagrams/block-definition-diagram.png)
+
 ## 8. Internal Block Diagram — internal interfaces
 
 ```mermaid
@@ -213,6 +237,8 @@ flowchart LR
 ```
 
 A production model should refine every connector with direction, voltage/current range, signal type, connector definition, failure behavior, and verification method.
+
+![E-Bike Taxi Internal Block Diagram](../assets/diagrams/internal-block-diagram.png)
 
 ## 9. State machines — service and vehicle modes
 
@@ -249,6 +275,8 @@ flowchart LR
 
 These views should ultimately use named events, guards, timeouts, and entry/exit actions so they can be simulated and verified.
 
+![Service and vehicle state machines](../assets/diagrams/state-machines.png)
+
 ## 10. Parametric diagram — quantitative verification
 
 ```mermaid
@@ -265,6 +293,8 @@ flowchart TD
 ```
 
 The source model introduces a total-vehicle-mass limit of 200 kg and a five-minute booking/payment requirement. The parametric prototype is incomplete: only the frame shows a mass value, most component values remain unset, and the original equation does not bind every subsystem. It should therefore be treated as a verification pattern, not evidence that either requirement has passed.
+
+![E-Bike Taxi parametric diagram](../assets/diagrams/parametric-diagram.png)
 
 ## End-to-end traceability
 
