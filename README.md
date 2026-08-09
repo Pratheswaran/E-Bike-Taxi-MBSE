@@ -23,6 +23,24 @@ This undergraduate team project translates stakeholder needs into a traceable sy
 - Used a parametric model to begin mass and service-time verification.
 - Applied a MagicGrid-inspired progression from stakeholder needs to system architecture.
 
+## Architecture overview
+
+The concept connects a traction-energy path, auxiliary electrical loads, service braking, and a modified frame with separated seating. This Mermaid view renders directly on GitHub and does not depend on external image files.
+
+```mermaid
+flowchart TB
+    CHG["External power and charging"] --> BAT["48 V battery concept"]
+    BAT --> CTRL["Traction controller"]
+    CTRL --> MOTOR["Traction motor"]
+    MOTOR --> ROAD["Wheel and road interface"]
+    BAT --> CONV["DC-DC converter"]
+    CONV --> AUX["Lighting, horn, and indicators"]
+    FRAME["Extended frame and separated seating"] --- ROAD
+    BRAKE["Service and regenerative braking concepts"] --> ROAD
+```
+
+Competing motor, brake, and wheel specifications remain open configuration decisions rather than released design values.
+
 ## Problem and project scope
 
 The project addresses two connected goals:
@@ -42,13 +60,16 @@ The principal stakeholder priorities captured in the source project evidence are
 
 ## Stakeholder evidence
 
-The source stakeholder study reports **101 respondents**: 69 students, 4 research scholars, and 28 employees. The gender distribution is 66 male and 35 female respondents.
+The source stakeholder study reports **101 respondents**.
 
-![Stakeholder survey summary](assets/analysis/stakeholder-survey.png)
+| Participant group | Respondents |
+|---|---:|
+| Students | 69 |
+| Research scholars | 4 |
+| Employees | 28 |
+| **Total** | **101** |
 
-The needs were consolidated into five high-level stakeholder requirements.
-
-![Prioritized stakeholder requirements](assets/analysis/stakeholder-requirements.png)
+The recorded gender distribution is 66 male and 35 female respondents. The evidence was consolidated into five high-level stakeholder priorities: low cost, comfort, avoidance of body contact, safety, and reaching the destination on time.
 
 ## Translating needs into engineering priorities
 
@@ -63,25 +84,42 @@ The project used the Kano model to distinguish basic expectations from performan
 
 The cost classification should be revisited because low cost is also recorded as a primary stakeholder requirement.
 
-![Kano model](assets/analysis/kano-model.png)
-
 ### Quality Function Deployment
 
-The QFD matrix links customer concerns—running cost, maintenance, warranty, comfort, and aesthetics—to battery, motor, controller, sensors, subsystems, electrical systems, and overall design. The source matrix gives the highest weighted priorities to the **motor (117)** and **battery (108)**, followed by design (63), electrical systems (61), subsystems (57), controllers (54), and sensors (54).
+The QFD matrix links customer concerns—running cost, maintenance, warranty, comfort, and aesthetics—to battery, motor, controller, sensors, subsystems, electrical systems, and overall design.
 
-![Quality Function Deployment matrix](assets/analysis/quality-function-deployment.png)
+| Engineering characteristic | Weighted priority |
+|---|---:|
+| Motor | 117 |
+| Battery | 108 |
+| Overall design | 63 |
+| Electrical systems | 61 |
+| Subsystems | 57 |
+| Controllers | 54 |
+| Sensors | 54 |
 
 ## MagicGrid-inspired model organization
 
-The model separates the problem domain from the solution domain. The black-box view captures stakeholder needs, use cases, system context, and effectiveness measures. The white-box view decomposes functions and logical subsystems. System requirements then connect the problem definition to a candidate architecture.
+The model separates the problem domain from the solution domain. The black-box view captures stakeholder needs, use cases, system context, and effectiveness measures. The white-box view decomposes functions and logical subsystems. System requirements connect the problem definition to a candidate architecture.
 
-![MagicGrid-inspired package organization](assets/diagrams/01-package-model-organization.jpg)
+```mermaid
+flowchart TD
+    subgraph P["Problem domain"]
+        NEEDS["Stakeholder needs"] --> CONTEXT["System context and use cases"]
+        CONTEXT --> MOE["Measures of effectiveness"]
+    end
+    subgraph W["White-box analysis"]
+        FUNCTIONS["Functional analysis"] --> LOGICAL["Logical subsystems"]
+        LOGICAL --> SUBMOE["Subsystem measures"]
+    end
+    P --> REQ["System requirements"]
+    REQ --> W
+    W --> SOLUTION["Candidate solution architecture"]
+```
 
-The complete diagram-by-diagram explanation is available in the [MBSE model walkthrough](docs/MBSE_MODEL_WALKTHROUGH.md).
+The complete diagram-by-diagram explanation is available in the [MBSE architecture walkthrough](docs/MBSE_MODEL_WALKTHROUGH.md).
 
 ## System concept
-
-The source architecture identifies these primary elements:
 
 | Element | Concept-stage specification or responsibility |
 |---|---|
@@ -95,8 +133,6 @@ The source architecture identifies these primary elements:
 | Wheels and tyres | R10 wheel and R12 tyre are listed and require dimensional reconciliation. |
 | Auxiliary systems | Horn, lighting, indicators/blinkers, and back light. |
 | Luggage carrier | Concept dimension of 200 × 200 mm attached to the chassis. |
-
-![Functional system flow](assets/analysis/functional-analysis-flow.png)
 
 These values are retained exactly as concept-stage evidence. They are not presented as a released design baseline; the competing motor, brake, and wheel specifications must be resolved through trade studies and configuration control.
 
@@ -143,9 +179,6 @@ See [Requirements and design review](docs/REQUIREMENTS_AND_DESIGN_REVIEW.md) for
 
 ```text
 E-Bike-Taxi-MBSE/
-├── assets/
-│   ├── analysis/              # Stakeholder, Kano, QFD, functional and timeline evidence
-│   └── diagrams/              # Original SysML/CATIA Magic diagrams extracted from the deck
 ├── docs/
 │   ├── MBSE_MODEL_WALKTHROUGH.md
 │   ├── REQUIREMENTS_AND_DESIGN_REVIEW.md
@@ -154,13 +187,19 @@ E-Bike-Taxi-MBSE/
 └── README.md
 ```
 
-The source presentation and supporting manuscript are working references and are intentionally not redistributed. See [Sources and provenance](docs/SOURCES.md) for the evidence and exclusion policy.
+The source presentation, manuscript, full report, embedded media, and extracted images are working references and are intentionally not redistributed. See [Sources and provenance](docs/SOURCES.md) for the evidence and exclusion policy.
 
 ## Project timeline
 
 The source plan progresses from concept selection in January through literature review, stakeholder and system requirements, functional analysis, SysML modeling in April, and report preparation in May.
 
-![Project timeline](assets/analysis/project-timeline.png)
+```mermaid
+flowchart LR
+    JAN["January: concept selection"] --> FEB["Literature and stakeholder study"]
+    FEB --> MAR["Requirements and functional analysis"]
+    MAR --> APR["SysML architecture modeling"]
+    APR --> MAY["Engineering review and reporting"]
+```
 
 ## Skills demonstrated
 
@@ -175,4 +214,3 @@ The source plan progresses from concept selection in January through literature 
 This repository documents a team project completed at **Dr. Mahalingam College of Engineering and Technology**. It is maintained as a portfolio artifact by **Pratheswaran Hariharan**.
 
 [Portfolio](https://pratheswaran.com) · [LinkedIn](https://www.linkedin.com/in/pratheswaran-hariharan-a78382214/) · [GitHub](https://github.com/Pratheswaran)
-
