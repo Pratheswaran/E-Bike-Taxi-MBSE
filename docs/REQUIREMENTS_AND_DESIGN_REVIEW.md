@@ -1,6 +1,18 @@
 # Requirements and design review
 
-This document separates the original concept evidence from the decisions that still require engineering closure.
+This document separates the original concept evidence from the decisions that still require engineering closure. It is a portfolio-level engineering review, not a released vehicle specification.
+
+## Review status
+
+| Review area | Current assessment | Required closure |
+|---|---|---|
+| Stakeholder evidence | Documented for 101 respondents | Preserve traceability from each need to measurable requirements. |
+| Requirements | Candidate values captured | Add unique IDs, rationale, acceptance criteria, and ownership. |
+| Architecture consistency | Partially defined | Baseline one motor, braking, and wheel/tyre configuration. |
+| Interfaces | Concept connections shown | Define power, signal, protection, direction, and connector data. |
+| Verification readiness | Methods proposed | Complete calculations, test conditions, and pass/fail criteria. |
+
+Source handling and interpretation rules are documented in [Sources and provenance](SOURCES.md).
 
 ## Stakeholder baseline
 
@@ -43,6 +55,14 @@ The source presentation records different needs by group. Students emphasize fas
 | Luggage carrier | 200 × 200 mm. | Functional-table concept |
 | Total mass | Not more than 200 kg. | Parametric requirement; not yet verified |
 | Booking and payment | Less than five minutes. | Parametric requirement; not yet verified |
+
+## Source requirement views
+
+![Stakeholder requirement hierarchy](../assets/diagrams/requirements-hierarchy.png)
+
+![Stakeholder requirement table](../assets/diagrams/requirements-table.png)
+
+These CATIA Magic views preserve the original requirement hierarchy and table. The review above transcribes their candidate values and flags conflicts without treating them as a released baseline.
 
 ## Architecture review
 
@@ -104,4 +124,3 @@ The total-mass constraint currently uses four variables while the design present
 6. Baseline one configuration and update all diagrams consistently.
 7. Complete mass, range, energy, gradeability, braking, and service-time parametrics.
 8. Add `satisfy` and `verify` relationships and generate a verification matrix.
-
