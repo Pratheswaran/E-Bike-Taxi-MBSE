@@ -2,6 +2,35 @@
 
 This document explains each project diagram as a connected engineering argument rather than a collection of screenshots. All images are the original project diagrams extracted from the supplied presentation; the activity details are frames from the presentation's embedded model walkthrough.
 
+## Architecture at a glance
+
+The MBSE flow preserves a line of reasoning from stakeholder evidence to verification planning.
+
+```mermaid
+flowchart TD
+    A["Stakeholder evidence"] --> B["Kano and QFD priorities"]
+    B --> C["System requirements"]
+    C --> D["Context and use cases"]
+    D --> E["Functional behavior"]
+    E --> F["Logical and physical architecture"]
+    F --> G["Interfaces and states"]
+    G --> H["Parametric verification"]
+```
+
+The concept architecture connects the traction path, auxiliary electrical loads, and vehicle structure. Competing motor, brake, and wheel specifications remain open configuration decisions, as documented in the requirements review.
+
+```mermaid
+flowchart TB
+    CHG["External power and charging"] --> BAT["48 V battery concept"]
+    BAT --> CTRL["Traction controller"]
+    CTRL --> MOTOR["Traction motor"]
+    MOTOR --> ROAD["Wheel and road interface"]
+    BAT --> CONV["DC-DC converter"]
+    CONV --> AUX["Lighting, horn, and indicators"]
+    FRAME["Extended frame and separated seating"] --- ROAD
+    BRAKE["Service and regenerative braking concepts"] --> ROAD
+```
+
 ## 1. Package diagram — model organization
 
 ![Package model organization](../assets/diagrams/01-package-model-organization.jpg)
@@ -127,15 +156,13 @@ This is a useful verification pattern, but the model is incomplete: only the fra
 
 The intended engineering chain is:
 
-```text
-Stakeholder evidence
-    → prioritized needs (Kano and QFD)
-    → system requirements
-    → use cases and system context
-    → functional/activity behavior
-    → logical and physical blocks
-    → interfaces and state behavior
-    → parametric verification
+```mermaid
+flowchart TD
+    N["Stakeholder need"] -->|derive| R["System requirement"]
+    R -->|refine| B["Behavior model"]
+    R -->|satisfy| S["Structure and interface model"]
+    B -->|allocate| S
+    R -->|verify| V["Analysis, inspection, demonstration, or test"]
 ```
 
 The next modeling increment should make that chain explicit with `deriveReqt`, `refine`, `satisfy`, `verify`, and allocation relationships plus requirement-to-model matrices.
