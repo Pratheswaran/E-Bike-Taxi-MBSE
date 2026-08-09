@@ -6,6 +6,14 @@ This undergraduate team project translates stakeholder needs into a traceable sy
 
 > **Repository purpose:** present the original project evidence clearly, explain how every model contributes to the architecture, and identify the design decisions that must be baselined before detailed engineering.
 
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [MBSE architecture walkthrough](docs/MBSE_MODEL_WALKTHROUGH.md) | Connects stakeholder evidence, requirements, behavior, structure, interfaces, and verification with GitHub-renderable Mermaid views. |
+| [Requirements and design review](docs/REQUIREMENTS_AND_DESIGN_REVIEW.md) | Separates source evidence from unresolved configuration decisions and verification work. |
+| [Sources and provenance](docs/SOURCES.md) | Records evidence provenance, methodology references, and the public-repository exclusion policy. |
+
 ## Portfolio highlights
 
 - Elicited and prioritized needs from **101 stakeholders**.
@@ -22,7 +30,7 @@ The project addresses two connected goals:
 1. Improve passenger comfort and privacy—especially for women—through a revised seating arrangement that increases separation between the driver and pillion passenger.
 2. Develop a low-cost electric bike-taxi concept using a model-based process rather than disconnected documents.
 
-The principal stakeholder priorities captured in the presentation are:
+The principal stakeholder priorities captured in the source project evidence are:
 
 | Priority | Engineering interpretation |
 |---|---|
@@ -34,7 +42,7 @@ The principal stakeholder priorities captured in the presentation are:
 
 ## Stakeholder evidence
 
-The source presentation reports **101 respondents**: 69 students, 4 research scholars, and 28 employees. The gender distribution is 66 male and 35 female respondents.
+The source stakeholder study reports **101 respondents**: 69 students, 4 research scholars, and 28 employees. The gender distribution is 66 male and 35 female respondents.
 
 ![Stakeholder survey summary](assets/analysis/stakeholder-survey.png)
 
@@ -141,12 +149,12 @@ E-Bike-Taxi-MBSE/
 ├── docs/
 │   ├── MBSE_MODEL_WALKTHROUGH.md
 │   ├── REQUIREMENTS_AND_DESIGN_REVIEW.md
-│   ├── SOURCES.md
-│   └── Project_Presentation.pdf
+│   └── SOURCES.md
+├── .gitignore
 └── README.md
 ```
 
-The original PowerPoint contains a 97 MB embedded video and exceeds GitHub's normal 100 MB single-file limit. A visually verified, flattened 32-slide PDF is included instead: [view the project presentation](docs/Project_Presentation.pdf).
+The source presentation and supporting manuscript are working references and are intentionally not redistributed. See [Sources and provenance](docs/SOURCES.md) for the evidence and exclusion policy.
 
 ## Project timeline
 
