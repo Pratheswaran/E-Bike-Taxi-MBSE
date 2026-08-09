@@ -3,3 +3,12 @@ Thumbs.db
 *.tmp
 ~$*.pptx
 
+# Private project source documents
+*.ppt
+*.pptx
+*Presentation*.pdf
+*presentation*.pdf
+*Manuscript*.pdf
+*manuscript*.pdf
+*Report*.pdf
+*report*.pdf
