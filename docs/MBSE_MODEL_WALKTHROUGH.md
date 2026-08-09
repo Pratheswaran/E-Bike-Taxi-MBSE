@@ -1,6 +1,6 @@
-# MBSE model walkthrough
+# MBSE architecture walkthrough
 
-This document explains each project diagram as a connected engineering argument rather than a collection of screenshots. All images are the original project diagrams extracted from the supplied presentation; the activity details are frames from the presentation's embedded model walkthrough.
+This document reconstructs the project architecture as GitHub-renderable Mermaid views. The diagrams are explanatory portfolio views derived from the private project evidence; they are not exported CATIA Magic screenshots or a replacement for the original SysML model.
 
 ## Architecture at a glance
 
@@ -17,7 +17,7 @@ flowchart TD
     G --> H["Parametric verification"]
 ```
 
-The concept architecture connects the traction path, auxiliary electrical loads, and vehicle structure. Competing motor, brake, and wheel specifications remain open configuration decisions, as documented in the requirements review.
+The concept architecture connects the traction path, auxiliary electrical loads, and vehicle structure.
 
 ```mermaid
 flowchart TB
@@ -31,23 +31,46 @@ flowchart TB
     BRAKE["Service and regenerative braking concepts"] --> ROAD
 ```
 
+Competing motor, brake, and wheel specifications remain open configuration decisions, as documented in the [requirements and design review](REQUIREMENTS_AND_DESIGN_REVIEW.md).
+
 ## 1. Package diagram — model organization
 
-![Package model organization](../assets/diagrams/01-package-model-organization.jpg)
+```mermaid
+flowchart TD
+    MODEL["E-Bike Taxi model"] --> PROBLEM["Problem domain"]
+    MODEL --> SOLUTION["Solution domain"]
+    PROBLEM --> BLACK["Black-box analysis"]
+    PROBLEM --> WHITE["White-box analysis"]
+    BLACK --> NEEDS["Stakeholder needs"]
+    BLACK --> CONTEXT["Context and use cases"]
+    BLACK --> MOE["Measures of effectiveness"]
+    WHITE --> FUNCTIONS["Functional analysis"]
+    WHITE --> LOGICAL["Logical subsystems"]
+    WHITE --> SUBMOE["Subsystem measures"]
+    NEEDS --> REQ["System requirements"]
+    CONTEXT --> REQ
+    FUNCTIONS --> REQ
+    REQ --> SOLUTION
+```
 
-**Purpose.** The package diagram defines where model information belongs and separates problem analysis from candidate solution definition.
+**Purpose.** The package organization defines where model information belongs and separates problem analysis from candidate solution definition.
 
-**Content.** The model contains a Problem Domain and Solution Domain. Within the Problem Domain, the Black Box packages hold Stakeholder Needs, Measurements of Effectiveness, System Context, and Use Cases. The White Box packages hold Measures of Effectiveness for Subsystems, Logical Subsystems, and Functional Analysis. A System Requirements package connects those analyses to the solution.
-
-**Engineering meaning.** This organization follows the main MagicGrid principle: understand the system from the outside before decomposing it internally. It supports navigation, ownership, and traceability across requirements, behavior, structure, and parameters.
+**Engineering meaning.** This follows the main MagicGrid principle: understand the system from the outside before decomposing it internally. It supports navigation, ownership, and traceability across requirements, behavior, structure, and parameters.
 
 ## 2. Requirement diagrams — from needs to specifications
 
-![Requirement hierarchy](../assets/diagrams/02-requirement-hierarchy.jpg)
-
-The hierarchy begins with stakeholder-level needs and decomposes them into design aspects, travel-cost concerns, and vehicle requirements. The model then derives more specific requirements for the frame, battery, motor, controller, converter, and brakes.
-
-![Requirement table](../assets/diagrams/03-requirement-table.jpg)
+```mermaid
+flowchart TD
+    NEED["Stakeholder needs"] --> COMFORT["Comfort and privacy"]
+    NEED --> COST["Low travel cost"]
+    NEED --> SAFETY["Safety"]
+    NEED --> TIME["Destination on time"]
+    COMFORT --> FRAME["Frame and seating geometry"]
+    COST --> POWER["Battery, motor, and controller"]
+    SAFETY --> BRAKES["Braking and lighting"]
+    TIME --> SERVICE["Booking and payment under 5 minutes"]
+    POWER --> CONVERTER["36/48/60 V to 12 V converter"]
+```
 
 Key requirements visible in the source model include:
 
@@ -63,107 +86,195 @@ Key requirements visible in the source model include:
 - Provide a bidirectional converter capable of producing 12 V from a 36/48/60 V source.
 - Provide combined braking and dual-disc braking.
 
-The table view is important because it exposes identifiers, hierarchy, and requirement text in a reviewable form. It also reveals concept conflicts when compared with the functional-analysis tables; those conflicts are documented in the design-review file.
+The requirement evidence also exposes concept conflicts when compared with the functional-analysis values. Those conflicts are retained and assessed in the design-review file rather than silently reconciled.
 
 ## 3. Use-case diagram — system responsibilities and actors
 
-![Use-case diagram](../assets/diagrams/04-use-case-diagram.jpg)
+```mermaid
+flowchart LR
+    CUSTOMER["Customer"] --> BOOK["Book ride"]
+    CUSTOMER --> PAY["Make payment"]
+    DRIVER["Driver"] --> OPERATE["Operate vehicle"]
+    ORG["Service organization"] --> ASSIGN["Assign driver"]
+    BANK["Bank"] --> PAY
+    VENDOR["Vendor and manpower"] --> BUILD["Build bike taxi"]
+    POWER["Power source"] --> CHARGE["Charge battery"]
+    INFRA["Charging infrastructure"] --> CHARGE
+    BOOK --> SYSTEM["E-Bike Taxi system"]
+    PAY --> SYSTEM
+    OPERATE --> SYSTEM
+    ASSIGN --> SYSTEM
+    BUILD --> SYSTEM
+    CHARGE --> SYSTEM
+```
 
-**System boundary.** The electric bike-taxi context contains the system-level work needed to create and operate the concept.
-
-**External participants.** Male and female customers, the organization, bank, vendor/manpower, driver, power source, and charging infrastructure appear outside the system boundary.
-
-**Use cases.** The source model includes Make Bike Taxi, Make Battery, Make Charger, Make Frame, Align Seating Position, and Availability of Charging Stations. The inclusion relationships show that the vehicle concept depends on frame, battery, charger, seating, and infrastructure decisions rather than treating the bike as a single isolated component.
+The system-level work includes making the bike taxi, battery, charger, and frame; aligning the seating position; providing charging availability; booking a ride; assigning a driver; and completing payment. The view keeps external participants outside the system boundary while showing why their interfaces matter.
 
 ## 4. System-context diagram — external interfaces
 
-![System-context diagram](../assets/diagrams/05-system-context-diagram.jpg)
+```mermaid
+flowchart TB
+    CUSTOMER["Customer"] -->|"ride request and destination"| SYSTEM["E-Bike Taxi service and vehicle"]
+    SYSTEM -->|"fare, wait time, and trip status"| CUSTOMER
+    ORG["Service organization"] <-->|"dispatch and operations data"| SYSTEM
+    DRIVER["Driver"] <-->|"acceptance and vehicle control"| SYSTEM
+    BANK["Bank"] <-->|"payment authorization"| SYSTEM
+    POWER["Grid and charging source"] -->|"electrical energy"| SYSTEM
+    VENDOR["Vendor and manpower"] -->|"components and support"| SYSTEM
+```
 
-The E-Chariot/E-Bike Taxi is modeled in an operating environment rather than alone. Customers request rides and make payments. The organization coordinates the service. The bank and vendor/manpower participate through payment or investment flows. The power source supplies electricity, and the driver operates the service.
-
-This view is the boundary-control artifact: it identifies what the system owns, what remains external, and which physical, financial, or informational exchanges cross the boundary.
+This is the boundary-control view: it identifies what the system owns, what remains external, and which physical, financial, or informational exchanges cross the boundary.
 
 ## 5. Activity diagram — end-to-end behavior
 
-![Activity overview](../assets/diagrams/06-activity-diagram-overview.png)
+```mermaid
+flowchart TD
+    START["Customer starts booking"] --> DEST["Enter destination"]
+    DEST --> EST["Estimate distance and fare"]
+    EST --> ASSIGN["Assign driver"]
+    ASSIGN --> ACCEPT{"Driver accepts?"}
+    ACCEPT -->|"No"| ASSIGN
+    ACCEPT -->|"Yes"| PAY{"Payment method"}
+    PAY -->|"Digital"| AUTHORIZE["Authorize through bank"]
+    PAY -->|"Cash"| RECORD["Record cash payment"]
+    AUTHORIZE --> DISPATCH["Dispatch driver"]
+    RECORD --> DISPATCH
+    DISPATCH --> ARRIVE["Arrive at customer"]
+    ARRIVE --> TRIP["Complete trip"]
+```
 
-The first part moves from the Electric Bike Taxi program through payment, organizational creation of the vehicle/service, driver assignment, vehicle readiness, and key-on activation.
-
-![Powertrain activity detail](../assets/diagrams/06a-activity-powertrain-detail.png)
-
-The vehicle-control portion connects the controller, converter, battery, throttle, motor, brake, horn, light, and left/right indicators. These actions represent operational dependencies; they should later be allocated to blocks and refined with typed signals and power flows.
-
-![Service-completion activity detail](../assets/diagrams/06b-activity-service-completion.png)
-
-The service portion covers customer booking, distance and travel-cost estimation, driver assignment, ride acceptance, payment processing, driver dispatch, and arrival at the customer location.
-
-**Traceability role.** The activity model refines use cases into action flow and supplies the behavior that sequence diagrams, logical subsystems, and state machines must support.
+The vehicle-control portion links key-on activation, controller, converter, battery, throttle, motor, brake, horn, lighting, and indicators. Those actions should later be allocated to blocks and refined with typed signal and power flows.
 
 ## 6. Sequence diagrams — booking and payment interaction
 
-![Ride and payment sequence](../assets/diagrams/07-sequence-ride-and-payment.jpg)
+```mermaid
+sequenceDiagram
+    actor Customer
+    participant System as E-Bike Taxi
+    participant Org as Organization
+    participant Driver
+    participant Bank
+    Customer->>System: Book ride and enter destination
+    System->>Org: Request fare and driver assignment
+    Org->>Driver: Offer ride
+    Driver-->>Org: Accept ride and provide wait time
+    Org-->>System: Driver and fare details
+    System-->>Customer: Show fare and wait time
+    alt Digital payment
+        Customer->>System: Pay digitally
+        System->>Bank: Authorize payment
+        Bank-->>System: Payment status
+    else Cash payment
+        Customer->>System: Select cash
+        System-->>Org: Record payment method
+    end
+    System-->>Customer: Confirm ride
+```
 
-The primary sequence includes booking a ride, entering the destination, estimating and declaring travel cost, assigning a driver, declaring waiting time, accepting the order, and initiating payment. The lifelines include the customer, E-Bike Taxi, organization, and bank.
-
-![Payment continuation](../assets/diagrams/08-sequence-payment-continuation.jpg)
-
-Alternative fragments model payment branches. A digital-payment path checks balance, returns balance status, and confirms the ride. A cash path records payment and change. A time-related alternative allows cancellation after inactivity.
-
-**Engineering value.** The sequence model makes interfaces testable because each message can become a software/service requirement with timing, data, and exception behavior.
+Each message can become a software or service requirement with timing, data, exception handling, and acceptance criteria. A timeout or cancellation branch should be modeled explicitly in the next increment.
 
 ## 7. Block Definition Diagram — system decomposition
 
-![Block Definition Diagram](../assets/diagrams/09-block-definition-diagram.jpg)
+```mermaid
+flowchart TD
+    SYSTEM["E-Bike Taxi"] --> FRAME["Vehicle frame"]
+    SYSTEM --> SEAT["Separated dual seat"]
+    SYSTEM --> POWER["Electric powertrain"]
+    SYSTEM --> BRAKE["Brake system"]
+    SYSTEM --> WHEELS["Wheels and tyres"]
+    SYSTEM --> AUX["Auxiliary systems"]
+    POWER --> BAT["Battery"]
+    POWER --> CTRL["Controller"]
+    POWER --> MOTOR["Motor"]
+    POWER --> CONV["DC-DC converter"]
+    AUX --> HORN["Horn"]
+    AUX --> LIGHTS["Lights and indicators"]
+    FRAME --> CARRIER["Luggage carrier"]
+```
 
-The E-Bike Taxi block is decomposed into vehicle frame, horn, wheels, brake system, seat, converter, controller, motor, and battery. The block also contains concept values such as vehicle name, battery, motor, controller, converter, seat, braking system, wheels, horn, and light.
-
-The BDD answers **what exists** and establishes reusable types. It does not by itself show how parts exchange energy or signals; that is the job of the IBD.
+The BDD answers **what exists** and establishes reusable types. It does not by itself show how parts exchange energy or signals; that is the purpose of the internal-interface view.
 
 ## 8. Internal Block Diagram — internal interfaces
 
-![Internal Block Diagram](../assets/diagrams/10-internal-block-diagram.png)
+```mermaid
+flowchart LR
+    GRID["External charging power"] -->|"electrical energy"| BAT["Battery"]
+    BAT -->|"traction power"| CTRL["Controller"]
+    THROTTLE["Throttle input"] -->|"demand signal"| CTRL
+    CTRL -->|"controlled power"| MOTOR["Motor"]
+    MOTOR -->|"drive torque"| WHEEL["Driven wheel"]
+    BAT -->|"high-voltage DC"| CONV["DC-DC converter"]
+    CONV -->|"12 V auxiliary power"| AUX["Horn, lights, and indicators"]
+    BRAKE["Brake command"] -->|"deceleration request"| CTRL
+    BRAKE -->|"mechanical braking"| WHEEL
+    FRAME["Frame and seating structure"] --- MOTOR
+    FRAME --- BAT
+    FRAME --- WHEEL
+```
 
-The IBD instantiates the E-Bike Taxi and connects external power to an internal power-source element and electrical units. It also shows the vehicle-frame structure and electrical connections to the lighting system, braking system, and horn.
-
-The ports and connectors are the foundation for interface control. A production model should refine each connector with direction, voltage/current range, signal type, connector definition, failure behavior, and verification method.
+A production model should refine every connector with direction, voltage/current range, signal type, connector definition, failure behavior, and verification method.
 
 ## 9. State machines — service and vehicle modes
 
-![Service state machine](../assets/diagrams/11-state-machine-service.jpg)
+### Service states
 
-The service-oriented state machine begins at Off and progresses through initialization, booking, destination entry, travel-amount estimation, payment, balance checking, driver acceptance, waiting-time estimation, e-bike operation, and ride acceptance/completion activities.
+```mermaid
+flowchart LR
+    OFF["Off"] --> INIT["Initialized"]
+    INIT --> BOOK["Booking"]
+    BOOK --> PRICE["Fare estimated"]
+    PRICE --> PAYMENT["Payment selected"]
+    PAYMENT --> ASSIGNED["Driver assigned"]
+    ASSIGNED --> WAITING["Driver approaching"]
+    WAITING --> ACTIVE["Ride active"]
+    ACTIVE --> COMPLETE["Ride complete"]
+    BOOK -->|"cancel or timeout"| OFF
+    WAITING -->|"cancel"| OFF
+    COMPLETE --> OFF
+```
 
-![Vehicle state machine](../assets/diagrams/12-state-machine-vehicle.jpg)
+### Vehicle states
 
-The vehicle-oriented state machine separates Off and On behavior. The On region connects starting, controller, battery, motor, and braking behavior, while the converter enables horn, light, back light, and indicator behavior with left/right indication.
+```mermaid
+flowchart LR
+    V_OFF["Vehicle off"] -->|"key on"| READY["Ready"]
+    READY -->|"throttle"| DRIVE["Propulsion active"]
+    DRIVE -->|"brake"| BRAKING["Braking"]
+    BRAKING -->|"released"| READY
+    DRIVE -->|"throttle released"| READY
+    READY -->|"auxiliary command"| AUX["Auxiliaries active"]
+    AUX --> READY
+    READY -->|"key off"| V_OFF
+```
 
 These views should ultimately use named events, guards, timeouts, and entry/exit actions so they can be simulated and verified.
 
 ## 10. Parametric diagram — quantitative verification
 
-![Parametric diagram](../assets/diagrams/13-parametric-diagram.jpg)
+```mermaid
+flowchart TD
+    FRAME["Frame mass"] --> MASS["Total mass constraint"]
+    BAT["Battery mass"] --> MASS
+    MOTOR["Motor mass"] --> MASS
+    CTRL["Controller and converter mass"] --> MASS
+    OTHER["Seat, wheels, brakes, and auxiliaries"] --> MASS
+    MASS --> LIMIT["Verify total mass at or below 200 kg"]
+    BOOK["Booking duration"] --> TIME["Service-time constraint"]
+    PAY["Payment duration"] --> TIME
+    TIME --> TLIMIT["Verify booking plus payment under 5 minutes"]
+```
 
-The model introduces two requirements:
-
-- Total vehicle mass shall not exceed 200 kg.
-- Booking a ride and completing payment shall take less than five minutes.
-
-The E-Bike Taxi Design block owns book-time and total-mass values and is connected to frame, control-unit, converter, battery, and hub-motor design blocks. A total-mass constraint is defined as `tm = x + y + z + w`.
-
-This is a useful verification pattern, but the model is incomplete: only the frame shows a mass value (15.0), most values remain unset, the equation has four addends while more than four component blocks appear, and the binding lines need to be completed. It should therefore be treated as a parametric prototype, not evidence that the 200 kg requirement has already been verified.
+The source model introduces a total-vehicle-mass limit of 200 kg and a five-minute booking/payment requirement. The parametric prototype is incomplete: only the frame shows a mass value, most component values remain unset, and the original equation does not bind every subsystem. It should therefore be treated as a verification pattern, not evidence that either requirement has passed.
 
 ## End-to-end traceability
 
-The intended engineering chain is:
-
 ```mermaid
 flowchart TD
-    N["Stakeholder need"] -->|derive| R["System requirement"]
-    R -->|refine| B["Behavior model"]
-    R -->|satisfy| S["Structure and interface model"]
-    B -->|allocate| S
-    R -->|verify| V["Analysis, inspection, demonstration, or test"]
+    N["Stakeholder need"] -->|"derive"| R["System requirement"]
+    R -->|"refine"| B["Behavior model"]
+    R -->|"satisfy"| S["Structure and interface model"]
+    B -->|"allocate"| S
+    R -->|"verify"| V["Analysis, inspection, demonstration, or test"]
 ```
 
-The next modeling increment should make that chain explicit with `deriveReqt`, `refine`, `satisfy`, `verify`, and allocation relationships plus requirement-to-model matrices.
-
+The next modeling increment should make this chain explicit in CATIA Magic with `deriveReqt`, `refine`, `satisfy`, `verify`, and allocation relationships plus requirement-to-model matrices.
